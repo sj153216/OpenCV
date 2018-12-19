@@ -14,6 +14,7 @@ android {
                 cppFlags ""
             }
         }
+
     }
     buildTypes {
         release {
@@ -26,18 +27,26 @@ android {
             path "CMakeLists.txt"
         }
     }
+
+    sourceSets{
+        main{
+            jniLibs.srcDirs = ['libs']
+        }
+    }
+
+
 }
 
-task nativeLibsToJar(type: Jar, description: 'create a jar archive of the native libs'){
-    destinationDir file("$buildDir/native_libs")
-    baseName 'native-libs'
-    from fileTree(dir: 'libs', include: '**/*.so')
-    into 'lib/'
-}
-
-tasks.withType(JavaCompile){
-    compileTask -> compileTask.dependsOn(nativeLibsToJar)
-}
+//task nativeLibsToJar(type: Jar, description: 'create a jar archive of the native libs'){
+//    destinationDir file("$buildDir/native_libs")
+//    baseName 'native-libs'
+//    from fileTree(dir: 'libs', include: '**/*.so')
+//    into 'lib/'
+//}
+//
+//tasks.withType(JavaCompile){
+//    compileTask -> compileTask.dependsOn(nativeLibsToJar)
+//}
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
@@ -46,6 +55,6 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
-    implementation files('build/native_libs/native-libs.jar')
+//    implementation files('build/native_libs/native-libs.jar')
     implementation project(':openCVLibrary343')
 }
